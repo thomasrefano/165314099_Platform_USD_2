@@ -13,6 +13,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
@@ -62,4 +63,23 @@ public class PasienResource {
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    public void putJson(String content) {
 //    }
+    @POST
+    @Path("addPasien")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addNewPasien(String data){
+        Gson gson = new Gson();
+        Pasien pasien = gson.fromJson(data,Pasien.class);
+        PasienHelper helper = new PasienHelper();
+        helper.addNewPasien(
+                pasien.getNik(), 
+                pasien.getNama(), 
+                pasien.getAlamat(), 
+                pasien.getNik(), 
+                pasien.getTanggalLahir(), 
+                pasien.getKelamin());
+        return Response
+                .status(200)
+                .entity(pasien)
+                .build();
+    }
 }
